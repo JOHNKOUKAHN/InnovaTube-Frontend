@@ -1,10 +1,11 @@
+import { AppRouter } from "./routes/AppRouter"
 
 
 function App() {
 
   return (
     <>
-      <h1 className="bg-black">InnovaTube</h1>
+      <AppRouter />
     </>
   )
 }
