@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom"
+import { Navigate, Route, Routes } from "react-router-dom"
 import { Favorites } from "../pages/Favorites"
 import { Home } from "../pages/Home"
 import { Login } from "../pages/Login"
@@ -13,7 +13,7 @@ export const AppRouter = () => {
         <Route path='signup' element={<SignUp />} />
         <Route path='home' element={<Home />} />
         <Route path='favorites' element={<Favorites />} />
-        <Route path='/*' element={<Login />} />
+        <Route path='/*' element={<Navigate to={'/login'} />} />
       </Routes>
     </>
   )
