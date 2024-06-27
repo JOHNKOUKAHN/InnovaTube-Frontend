@@ -33,12 +33,30 @@ export const useAuthStore = () => {
     navigate('login');
   }
 
+  const startUserRegister = async ({ fullName, userName, email, password }) => {
+    try {
+      const { data } = await innovaTubeApi.post(`/user/`, {
+        fullName,
+        userName,
+        email,
+        password
+      })
+
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+
 
   return {
     status,
 
     startLogin,
     startLogout,
+    startUserRegister
 
   }
 
