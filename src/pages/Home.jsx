@@ -7,7 +7,7 @@ import { useVideosStore } from '../hooks/useVideosStore'
 
 export const Home = () => {
 
-  const { startNewSearch, searchResults } = useVideosStore()
+  const { startNewSearch, startAddVideoToFavorite, searchResults } = useVideosStore()
 
   useEffect(() => {
     startNewSearch('Katy Perry')
@@ -18,15 +18,12 @@ export const Home = () => {
     <>
       <NavBar />
       <SearchBar functionToTrigger={startNewSearch} />
+      {
+        !searchResults.length && <p className='text-center'>No hay resultados</p>
+      }
       <div className='grid grid-cols-1 md:grid-cols-2 gap-3 p-5'>
         {searchResults.map((video) => (
-          <Card
-            key={video.id.videoId}
-            title={video.snippet.title}
-            channel={video.snippet.channelTitle}
-            description={video.snippet.description}
-            image={video.snippet.thumbnails.high.url}
-          />
+          <Card key={video.id.videoId} video={video} functionToTrigger1={startAddVideoToFavorite} />
         ))}
       </div>
     </>

@@ -7,7 +7,10 @@ export const videoSlice = createSlice({
     errorMessage: undefined,
     searchResults: [],
     currentSearchQuery: '',
-    favorites: []
+    currentFilterQuery: '',
+    favorites: [],
+    filteredFavorites: [],
+
 
   },
   reducers: {
@@ -22,6 +25,11 @@ export const videoSlice = createSlice({
       state.favorites = payload;
       state.errorMessage = undefined;
     },
+    onFilterFavorites: (state, { payload }) => {
+      state.filteredFavorites = payload.filteredFavorites;
+      state.currentFilterQuery = payload.currentFilterQuery;
+      state.errorMessage = undefined;
+    },
     onSetErrorMessage: (state, { payload }) => {
       state.errorMessage = payload;
     },
@@ -31,4 +39,4 @@ export const videoSlice = createSlice({
   }
 });
 
-export const { onNewSearch, onUpdateFavorites, onSetErrorMessage, clearErrorMessage } = videoSlice.actions;
+export const { onNewSearch, onUpdateFavorites, onSetErrorMessage, clearErrorMessage, onFilterFavorites } = videoSlice.actions;

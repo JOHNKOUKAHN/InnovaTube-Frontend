@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export const NavBar = () => {
   return (
@@ -23,18 +24,18 @@ export const NavBar = () => {
             <ul
               tabIndex={0}
               className="menu menu-sm text-black dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-              <li><a>Inicio</a></li>
-              <li><a>Favoritos</a></li>
-              <li><a>Cerrar Sesión</a></li>
+              <li><Link to={'/home'}>Inicio</Link></li>
+              <li><Link to={'/favorites'}>Favoritos</Link></li>
+              <li><Link to={'/login'}>Cerrar Sesión</Link></li>
             </ul>
           </div>
           <a className="btn btn-ghost text-xl">InnovaTube</a>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
-            <li><a>Inicio</a></li>
-            <li><a>Favoritos</a></li>
-            <li><a>Cerrar Sesión</a></li>
+            <li><Link to={'/home'}>Inicio</Link></li>
+            <li><Link to={'/favorites'}>Favoritos</Link></li>
+            <li><Link to={'/login'}>Cerrar Sesión</Link></li>
           </ul>
         </div>
         <div className="navbar-end">
