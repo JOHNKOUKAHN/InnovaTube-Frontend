@@ -3,9 +3,12 @@ import { Favorites } from "../pages/Favorites"
 import { Home } from "../pages/Home"
 import { Login } from "../pages/Login"
 import { SignUp } from "../pages/SignUp"
+import { useAuthStore } from "../hooks/useAuthStore"
 
 
 export const AppRouter = () => {
+  const { status } = useAuthStore();
+
   return (
     <>
       <Routes>

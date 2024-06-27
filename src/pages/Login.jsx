@@ -1,13 +1,14 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../hooks/useAuthStore";
 
 export const Login = () => {
+  const navigate = useNavigate();
 
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-  const { startLogin } = useAuthStore();
+  const { startLogin, status } = useAuthStore();
 
   const handleLogin = (e) => {
     e.preventDefault()
@@ -15,6 +16,12 @@ export const Login = () => {
   }
 
 
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      navigate('/home')
+    }
+  }, [])
   return (
     <>
       <div className="min-h-screen bg-gray-100 flex flex-col justify-center sm:py-12">
@@ -43,6 +50,7 @@ export const Login = () => {
               <div className="flex flex-col justify-between gap-3">
                 <button
                   type="submit"
+                  disabled={status === 'checking' ? true : false}
                   className="transition duration-200 bg-red-500 hover:bg-red-600 focus:bg-red-700 focus:shadow-sm focus:ring-4 focus:ring-red-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block"
                 >
                   <span className="inline-block mr-2">Acceder</span>

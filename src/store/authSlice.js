@@ -3,8 +3,9 @@ import { createSlice } from '@reduxjs/toolkit';
 export const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    status: 'checking',
+    status: 'not-authenticated',
     errorMessage: undefined,
+    user: {},
   },
   reducers: {
     onChecking: (state) => {
@@ -13,6 +14,7 @@ export const authSlice = createSlice({
     },
     onLogin: (state, { payload }) => {
       state.status = 'authenticated';
+      state.user = payload;
       state.errorMessage = undefined;
     },
     onLogout: (state, { payload }) => {

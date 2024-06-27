@@ -1,7 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useAuthStore } from '../hooks/useAuthStore'
 
 export const NavBar = () => {
+  const { startLogout } = useAuthStore()
   return (
     <>
       <div className="navbar bg-red-600 text-white">
@@ -26,7 +28,7 @@ export const NavBar = () => {
               className="menu menu-sm text-black dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
               <li><Link to={'/home'}>Inicio</Link></li>
               <li><Link to={'/favorites'}>Favoritos</Link></li>
-              <li><Link to={'/login'}>Cerrar Sesión</Link></li>
+              <li><span onClick={() => startLogout()}>Cerrar Sesión</span></li>
             </ul>
           </div>
           <a className="btn btn-ghost text-xl">InnovaTube</a>
@@ -35,7 +37,7 @@ export const NavBar = () => {
           <ul className="menu menu-horizontal px-1">
             <li><Link to={'/home'}>Inicio</Link></li>
             <li><Link to={'/favorites'}>Favoritos</Link></li>
-            <li><Link to={'/login'}>Cerrar Sesión</Link></li>
+            <li><span onClick={() => startLogout()}>Cerrar Sesión</span></li>
           </ul>
         </div>
         <div className="navbar-end">

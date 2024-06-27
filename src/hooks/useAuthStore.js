@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 
 import innovaTubeApi from "../api/InnovaTubeApi";
-import { onChecking } from "../store/authSlice";
+import { onChecking, onLogin, onLogout } from "../store/authSlice";
 
 export const useAuthStore = () => {
 
@@ -18,7 +18,7 @@ export const useAuthStore = () => {
       console.log(data);
       localStorage.setItem('token', data.token);
       localStorage.setItem('token-init-date', new Date().getTime());
-
+      dispatch(onLogin(data.user));
 
     } catch (error) {
       console.log(error);
@@ -27,11 +27,12 @@ export const useAuthStore = () => {
   }
 
 
-
   const startLogout = () => {
     localStorage.clear();
     dispatch(onLogout());
+    navigate('login');
   }
+
 
   return {
     status,
