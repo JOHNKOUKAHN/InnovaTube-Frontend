@@ -3,34 +3,23 @@ import { NavBar } from '../Components/NavBar'
 import { SearchBar } from '../Components/SearchBar'
 import { Card } from '../Components/Card'
 import youtubeApi from '../api/youtubeAPI'
+import { useVideosStore } from '../hooks/useVideosStore'
 
 export const Home = () => {
 
-  const [videos, setVideos] = useState([]);
-
-  const search = async () => {
-    const { data } = await youtubeApi.get('', {
-      params: {
-        part: 'snippet',
-        q: 'post malone',
-        maxResults: 10,
-        type: 'video',
-      }
-    })
-    setVideos(data.items)
-    console.log(data.items);
-  }
+  const { startNewSearch, searchResults } = useVideosStore()
 
   useEffect(() => {
-    search()
+    startNewSearch('Katy Perry')
   }, [])
+
 
   return (
     <>
       <NavBar />
-      <SearchBar />
+      <SearchBar functionToTrigger={startNewSearch} />
       <div className='grid grid-cols-1 md:grid-cols-2 gap-3 p-5'>
-        {videos.map((video) => (
+        {searchResults.map((video) => (
           <Card
             key={video.id.videoId}
             title={video.snippet.title}
