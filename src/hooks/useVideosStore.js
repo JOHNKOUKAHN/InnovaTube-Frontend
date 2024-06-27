@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { onFilterFavorites, onNewSearch, onUpdateFavorites } from "../store/videoSlice";
 import youtubeApi from "../api/youtubeAPI";
+import innovaTubeApi from "../api/InnovaTubeApi";
 
 
 
@@ -8,6 +9,7 @@ export const useVideosStore = () => {
 
   const dispatch = useDispatch()
 
+  const { user } = useSelector(state => state.auth);
   const { currentSearchQuery, currentFilterQuery, filteredFavorites, favorites, searchResults } = useSelector(state => state.video);
 
 
@@ -37,22 +39,46 @@ export const useVideosStore = () => {
     dispatch(onFilterFavorites({ filteredFavorites: filtered, currentFilterQuery: query }))
   }
 
-  const startAddVideoToFavorite = (video) => {
+  const startAddVideoToFavorite = async (video) => {
     if (favorites.includes(video)) return;
-    const favoritesUnref = [...favorites]
-    favoritesUnref.push(video)
-    dispatch(onUpdateFavorites(favoritesUnref))
+    try {
+      const favoritesUnref = [...favorites]
+      favoritesUnref.push(video)
+      dispatch(onUpdateFavorites(favoritesUnref))
+      const { data } = await innovaTubeApi.put(`/user/${user.uid}`, {
+        favorites: favoritesUnref
+      })
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
 
-  const startRemoveVideoFromFavorite = (video) => {
+  const startRemoveVideoFromFavorite = async (video) => {
     if (!favorites.includes(video)) return;
-    const favoritesUnref = [...favorites]
-    const index = favoritesUnref.indexOf(video);
-    if (index > -1) {
-      favoritesUnref.splice(index, 1);
+    try {
+      const favoritesUnref = [...favorites]
+      const index = favoritesUnref.indexOf(video);
+      if (index > -1) {
+        favoritesUnref.splice(index, 1);
+      }
+      dispatch(onUpdateFavorites(favoritesUnref))
+      const { data } = await innovaTubeApi.put(`/user/${user.uid}`, {
+        favorites: favoritesUnref
+      })
+      console.log(data);
+      if (currentFilterQuery === '') return
+      const filteredFavoritesUnref = [...filteredFavorites]
+      const indexFav = filteredFavoritesUnref.indexOf(video);
+      if (indexFav > -1) {
+        filteredFavoritesUnref.splice(indexFav, 1);
+      }
+      dispatch(onFilterFavorites(filteredFavoritesUnref))
+
+    } catch (error) {
+
     }
-    dispatch(onUpdateFavorites(favoritesUnref))
 
   }
 

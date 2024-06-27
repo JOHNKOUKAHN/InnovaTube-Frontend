@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useAuthStore } from '../hooks/useAuthStore'
 
 export const NavBar = () => {
-  const { startLogout } = useAuthStore()
+  const { startLogout, user } = useAuthStore()
   return (
     <>
       <div className="navbar bg-red-600 text-white">
@@ -41,7 +41,7 @@ export const NavBar = () => {
           </ul>
         </div>
         <div className="navbar-end">
-          <a className="">Usuario</a>
+          <a className="">{user.userName}</a>
         </div>
       </div>
     </>
