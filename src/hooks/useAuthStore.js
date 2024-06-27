@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { onUpdateFavorites } from "../store/videoSlice";
 
 import { onChecking, onClearErrorMessage, onSetErrorMessage, onSetMessage, onClearMessage, onLogin, onLogout } from "../store/authSlice";
-import innovaTubeApi from "../api/InnovaTubeApi";
+import backendApi from "../api/backendApi";
+
 
 export const useAuthStore = () => {
 
@@ -22,7 +23,7 @@ export const useAuthStore = () => {
         dispatch(onLogout())
         return
       }
-      const { data } = await innovaTubeApi.post('/auth', { userName, password });
+      const { data } = await backendApi.post('/auth', { userName, password });
       localStorage.setItem('token', data.token);
       localStorage.setItem('token-init-date', new Date().getTime());
       dispatch(onLogin(data.user));
@@ -60,7 +61,7 @@ export const useAuthStore = () => {
         return
       }
 
-      const { data } = await innovaTubeApi.post(`/user/`, {
+      const { data } = await backendApi.post(`/user/`, {
         fullName,
         userName,
         email,

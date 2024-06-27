@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { onFilterFavorites, onNewSearch, onUpdateFavorites } from "../store/videoSlice";
 import youtubeApi from "../api/youtubeAPI";
-import innovaTubeApi from "../api/InnovaTubeApi";
+import backendApi from "../api/backendApi";
 
 
 
@@ -43,7 +43,7 @@ export const useVideosStore = () => {
       const favoritesUnref = [...favorites]
       favoritesUnref.push(video)
       dispatch(onUpdateFavorites(favoritesUnref))
-      const { data } = await innovaTubeApi.put(`/user/${user.uid}`, {
+      const { data } = await backendApi.put(`/user/${user.uid}`, {
         favorites: favoritesUnref
       })
     } catch (error) {
@@ -60,7 +60,7 @@ export const useVideosStore = () => {
         favoritesUnref.splice(index, 1);
       }
       dispatch(onUpdateFavorites(favoritesUnref))
-      const { data } = await innovaTubeApi.put(`/user/${user.uid}`, {
+      const { data } = await backendApi.put(`/user/${user.uid}`, {
         favorites: favoritesUnref
       })
       if (currentFilterQuery === '') return
