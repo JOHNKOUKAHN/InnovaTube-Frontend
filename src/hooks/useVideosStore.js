@@ -25,10 +25,8 @@ export const useVideosStore = () => {
           type: 'video',
         }
       })
-      console.log(data);
       dispatch(onNewSearch({ searchResults: data.items, currentSearchQuery: query }))
     } catch (error) {
-      console.log(error);
     }
   }
   const startFilterFavorites = (query) => {
@@ -48,9 +46,7 @@ export const useVideosStore = () => {
       const { data } = await innovaTubeApi.put(`/user/${user.uid}`, {
         favorites: favoritesUnref
       })
-      console.log(data);
     } catch (error) {
-      console.log(error);
     }
   }
 
@@ -67,7 +63,6 @@ export const useVideosStore = () => {
       const { data } = await innovaTubeApi.put(`/user/${user.uid}`, {
         favorites: favoritesUnref
       })
-      console.log(data);
       if (currentFilterQuery === '') return
       const filteredFavoritesUnref = [...filteredFavorites]
       const indexFav = filteredFavoritesUnref.indexOf(video);

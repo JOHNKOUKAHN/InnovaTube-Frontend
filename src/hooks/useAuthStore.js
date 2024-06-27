@@ -3,17 +3,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { onUpdateFavorites } from "../store/videoSlice";
 
 import innovaTubeApi from "../api/InnovaTubeApi";
-import { onChecking, onLogin, onLogout } from "../store/authSlice";
+import { onChecking, onClearErrorMessage, onSetErrorMessage, onSetMessage, onClearMessage, onLogin, onLogout } from "../store/authSlice";
 
 export const useAuthStore = () => {
 
   const dispatch = useDispatch();
 
-  const { status, errorMessage, user } = useSelector(state => state.auth);
+  const { status, errorMessage, msg, user } = useSelector(state => state.auth);
 
   const startLogin = async ({ userName, password }) => {
     dispatch(onChecking());
+    startCleaningMessages();
     try {
+
+      //Validaciones
+      if (userName.trim() === '' || password.trim() === '') {
+        dispatch(onSetErrorMessage('Verifique la información ingresada'))
+        dispatch(onLogout())
+        return
+      }
       const { data } = await innovaTubeApi.post('/auth', { userName, password });
       localStorage.setItem('token', data.token);
       localStorage.setItem('token-init-date', new Date().getTime());
@@ -21,7 +29,8 @@ export const useAuthStore = () => {
       dispatch(onUpdateFavorites(data.user.favorites));
 
     } catch (error) {
-      console.log(error);
+      dispatch(onSetErrorMessage(error.response.data.msg))
+      dispatch(onLogout())
     }
 
   }
@@ -33,31 +42,53 @@ export const useAuthStore = () => {
     navigate('login');
   }
 
-  const startUserRegister = async ({ fullName, userName, email, password }) => {
+  const startUserRegister = async ({ fullName, userName, email, password, confirmPassword }) => {
+    dispatch(onChecking());
+    startCleaningMessages();
+
     try {
+
+      //Validaciones
+      if (userName.trim() === '' || fullName.trim() === '' || email.trim() === '' || password.trim() === '' || confirmPassword.trim() === '') {
+        dispatch(onSetErrorMessage('Todos los campos son obligatorios'))
+        dispatch(onLogout())
+        return
+      }
+      if (password !== confirmPassword) {
+        dispatch(onSetErrorMessage('Las contraseñas no coinciden'))
+        dispatch(onLogout())
+        return
+      }
+
       const { data } = await innovaTubeApi.post(`/user/`, {
         fullName,
         userName,
         email,
         password
       })
-
-      console.log(data);
+      dispatch(onSetMessage('Registro Exitoso'))
     } catch (error) {
-      console.log(error);
+      dispatch(onSetErrorMessage(error.response.data.msg))
+      dispatch(onLogout())
     }
   }
 
 
-
+  const startCleaningMessages = () => {
+    dispatch(onClearErrorMessage());
+    dispatch(onClearMessage());
+  }
 
   return {
     status,
     user,
+    errorMessage,
+    msg,
 
     startLogin,
     startLogout,
-    startUserRegister
+    startUserRegister,
+    startCleaningMessages
 
   }
 

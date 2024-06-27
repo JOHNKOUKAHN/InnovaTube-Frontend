@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../hooks/useAuthStore";
+import { Message } from "../Components/Message";
 
 export const SignUp = () => {
   const navigate = useNavigate();
-  const { startUserRegister, status } = useAuthStore();
+  const { startUserRegister, startCleaningMessages, status } = useAuthStore();
 
 
   const [fullName, setFullName] = useState("");
@@ -15,12 +16,13 @@ export const SignUp = () => {
 
   const handleSignup = (e) => {
     e.preventDefault()
-    startUserRegister({ fullName, userName, email, password })
+    startUserRegister({ fullName, userName, email, password, confirmPassword })
   }
 
 
 
   useEffect(() => {
+    startCleaningMessages();
     if (status === 'authenticated') {
       navigate('/home')
     }
@@ -78,6 +80,7 @@ export const SignUp = () => {
                   placeholder="........" />
               </label>
               <div className="flex flex-col justify-between gap-3">
+                <Message />
                 <button
                   type="submit"
                   className="transition duration-200 bg-red-500 hover:bg-red-600 focus:bg-red-700 focus:shadow-sm focus:ring-4 focus:ring-red-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block"

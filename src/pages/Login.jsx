@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../hooks/useAuthStore";
+import { Message } from "../Components/Message";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -8,7 +9,7 @@ export const Login = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-  const { startLogin, status } = useAuthStore();
+  const { startLogin, startCleaningMessages, status } = useAuthStore();
 
   const handleLogin = (e) => {
     e.preventDefault()
@@ -18,6 +19,7 @@ export const Login = () => {
 
 
   useEffect(() => {
+    startCleaningMessages();
     if (status === 'authenticated') {
       navigate('/home')
     }
@@ -58,6 +60,7 @@ export const Login = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </button>
+                <Message />
                 <div className="flex flex-row gap-3">
                   <p>¿No tienes cuenta?</p>
                   <Link to={'/signup'} className="font-bold">

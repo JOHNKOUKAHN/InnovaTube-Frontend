@@ -18,11 +18,11 @@ export const Favorites = () => {
         {
           currentFilterQuery === ''
             ?
-            favorites.map((video) => (
+            favorites.length && favorites.map((video) => (
               <Card key={video.id.videoId} video={video} isfavorite functionToTrigger2={startRemoveVideoFromFavorite} />
             ))
             :
-            filteredFavorites.map((video) => (
+            filteredFavorites.length && filteredFavorites.map((video) => (
               <Card key={video.id.videoId} video={video} isfavorite functionToTrigger2={startRemoveVideoFromFavorite} />
             ))
         }
