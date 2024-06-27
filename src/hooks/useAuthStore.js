@@ -2,8 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { onUpdateFavorites } from "../store/videoSlice";
 
-import innovaTubeApi from "../api/InnovaTubeApi";
 import { onChecking, onClearErrorMessage, onSetErrorMessage, onSetMessage, onClearMessage, onLogin, onLogout } from "../store/authSlice";
+import innovaTubeApi from "../api/InnovaTubeApi";
 
 export const useAuthStore = () => {
 
