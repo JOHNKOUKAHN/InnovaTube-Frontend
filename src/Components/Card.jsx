@@ -1,19 +1,27 @@
 import React from 'react'
 
-export const Card = () => {
+export const Card = ({ image, title, channel, description, isfavorite = false }) => {
   return (
     <>
       <div className="card lg:card-side bg-base-100 shadow-xl">
-        <figure>
+        <figure className='mx-3'>
           <img
-            src="https://img.daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg"
-            alt="Album" />
+            src={image ? image : 'https://img.daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg'}
+            alt={description} />
         </figure>
         <div className="card-body">
-          <h2 className="card-title">New album is released!</h2>
-          <p>Click the button to listen on Spotiwhy app.</p>
+          <h2 className="card-title">{title}</h2>
+          <p>{channel}</p>
+          <p>{description}</p>
           <div className="card-actions justify-end">
-            <button className="btn btn-primary">Listen</button>
+            {
+              !isfavorite &&
+              <button className="btn bg-slate-500 text-white" disabled={isfavorite}>+</button>
+            }
+            {
+              isfavorite &&
+              <button className="btn bg-yellow-500 text-white" disabled={!isfavorite}>x</button>
+            }
           </div>
         </div>
       </div>

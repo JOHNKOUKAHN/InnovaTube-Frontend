@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavBar } from '../Components/NavBar'
 import { SearchBar } from '../Components/SearchBar'
 import { Card } from '../Components/Card'
@@ -6,6 +6,7 @@ import youtubeApi from '../api/youtubeAPI'
 
 export const Home = () => {
 
+  const [videos, setVideos] = useState([]);
 
   const search = async () => {
     const { data } = await youtubeApi.get('', {
@@ -16,7 +17,8 @@ export const Home = () => {
         type: 'video',
       }
     })
-    console.log(data);
+    setVideos(data.items)
+    console.log(data.items);
   }
 
   useEffect(() => {
@@ -27,16 +29,16 @@ export const Home = () => {
     <>
       <NavBar />
       <SearchBar />
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-3 p-5'>
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-3 p-5'>
+        {videos.map((video) => (
+          <Card
+            key={video.id.videoId}
+            title={video.snippet.title}
+            channel={video.snippet.channelTitle}
+            description={video.snippet.description}
+            image={video.snippet.thumbnails.high.url}
+          />
+        ))}
       </div>
     </>
   )
