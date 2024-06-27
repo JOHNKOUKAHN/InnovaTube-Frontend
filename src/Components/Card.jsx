@@ -4,7 +4,7 @@ export const Card = ({ video, isfavorite = false, functionToTrigger1, functionTo
   return (
     <>
       <div className="card lg:card-side bg-base-100 shadow-xl">
-        <figure className='mx-3'>
+        <figure >
           <img
             src={video.snippet.thumbnails.high.url ? video.snippet.thumbnails.high.url : 'https://img.daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg'}
             alt={video.snippet.description} />

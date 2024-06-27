@@ -33,6 +33,7 @@ export const useVideosStore = () => {
     if (query === currentFilterQuery) return;
 
     const filtered = favorites.filter(video => video.snippet.title.toUpperCase().includes(query.toUpperCase()))
+    if (!filtered.length) return;
     dispatch(onFilterFavorites({ filteredFavorites: filtered, currentFilterQuery: query }))
   }
 
