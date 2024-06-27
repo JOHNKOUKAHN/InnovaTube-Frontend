@@ -9,11 +9,23 @@ export const AppRouter = () => {
   return (
     <>
       <Routes>
-        <Route path='login' element={<Login />} />
-        <Route path='signup' element={<SignUp />} />
-        <Route path='home' element={<Home />} />
-        <Route path='favorites' element={<Favorites />} />
-        <Route path='/*' element={<Navigate to={'/login'} />} />
+        {
+          (status !== 'authenticated')
+            ? (
+              <>
+                <Route path='/login' element={<Login />} />
+                <Route path='signup' element={<SignUp />} />
+                <Route path='/*' element={<Navigate to={'/login'} />} />
+              </>)
+
+            : (
+              <>
+                <Route path='home' element={<Home />} />
+                <Route path='favorites' element={<Favorites />} />
+                <Route path='/*' element={<Navigate to={'/home'} />} />
+              </>
+            )
+        }
       </Routes>
     </>
   )
